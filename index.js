@@ -19,15 +19,9 @@ var bookService = {
     allBooks: [],
     allAuthor: [],
     showBook: function (nameBook) {
-        var index = this.allBooks.findIndex(function (book) { return book.name.includes(nameBook); });
-        if (index >= 0) {
-            return this.allBooks[index];
-        }
+        return this.allBooks.find(function (book) { return book.name.toLowerCase().includes(nameBook.toLowerCase()); });
     },
     showAuthor: function (nameAuthor) {
-        var index = this.allAuthor.findIndex(function (author) { return "".concat(author.name).concat(author.surname).includes(nameAuthor); });
-        if (index >= 0) {
-            return this.allAuthor[index];
-        }
+        return this.allAuthor.find(function (author) { return "".concat(author.name, " ").concat(author.surname).toLowerCase().includes(nameAuthor.toLowerCase()); });
     }
 };

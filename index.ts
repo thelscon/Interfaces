@@ -1,18 +1,18 @@
 // Створіть інтерфейс, який описує структуру об'єкта, що представляє калькулятор. 
 // Калькулятор повинен мати методи для виконання арифметичних операцій: додавання, віднімання, множення та ділення. 
 // Потім створіть функцію calculate, яка приймає об'єкт цього типу та виконує операцію і повертає результат.
-interface iCalculator{
+interface ICalculator{
     sum : (a : number, b : number) => number ,
     subtraction : (a : number, b : number) => number ,
     multiplication : (a : number, b : number) => number ,
     division : (a : number, b : number) => number
 }
 
-function calculate(calculator : iCalculator) : number {
+function calculate(calculator : ICalculator) : number {
     return calculator.multiplication(5, 3)
 }
 
-const calculatorObject : iCalculator = {
+const calculatorObject : ICalculator = {
     sum(a : number, b: number) : number {
         return a + b;
     } ,
@@ -32,42 +32,36 @@ const calculatorObject : iCalculator = {
 // Створіть інтерфейси Book, Author, і BookService, які описують структуру даних книжок, авторів і методи веб-сервісу для отримання інформації про книжки та авторів. 
 // Потім створіть об'єкт bookService, який імітує роботу веб-сервісу, і використовуйте інтерфейси для отримання інформації про книги та авторів.
 
-interface iAuthor {
+interface IAuthor {
     name : string ,
     surname : string ,
     autobiography : string ,
-    writtenBooks : iBook | iBook[]
+    writtenBooks : IBook | IBook[]
 }
 
-interface iBook {
+interface IBook {
     name : string ,
     yearOfIssue : Date ,
     numberOfPages : number ,
-    authors : iAuthor | iAuthor[]
+    authors : IAuthor | IAuthor[]
 }
 
-interface iBookService {
-    allBooks : iBook[] ,
-    allAuthor : iAuthor[] ,
+interface IBookService {
+    allBooks : IBook[] ,
+    allAuthor : IAuthor[] ,
 
-    showBook : ( book : string ) => iBook | void ,
-    showAuthor : ( author : string ) => iAuthor | void
+    showBook : ( book : string ) => IBook | undefined ,
+    showAuthor : ( author : string ) => IAuthor | undefined
 }
 
-const bookService : iBookService = {
+const bookService : IBookService = {
     allBooks : [] ,
     allAuthor : [] ,
 
-    showBook ( nameBook : string ) : iBook | void {
-        const index = this.allBooks.findIndex ( book => book.name.includes ( nameBook ) ) ;
-        if ( index >= 0 ) {
-            return this.allBooks[ index ] ;
-        }
+    showBook ( nameBook : string ) : IBook | undefined {
+        return this.allBooks.find ( book => book.name.toLowerCase().includes ( nameBook.toLowerCase() ) ) ;
     } ,
-    showAuthor ( nameAuthor : string ) : iAuthor | void {
-        const index = this.allAuthor.findIndex ( author => `${author.name}${author.surname}`.includes ( nameAuthor ) ) ;
-        if ( index >= 0 ) {
-            return this.allAuthor[ index ] ;
-        }
+    showAuthor ( nameAuthor : string ) : IAuthor | undefined {
+        return this.allAuthor.find ( author => `${author.name} ${author.surname}`.toLowerCase().includes ( nameAuthor.toLowerCase() ) ) ;
     }
 }
